@@ -1,31 +1,49 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
+import { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import app from './firebase.init';
 
+const auth = getAuth(app);
 
 function App() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailBluer = (event) => {
+    setEmail(event.target.value);
+  }
+  const handlePasswordBluer = (event) => {
+    setPassword(event.target.value);
+  }
+
+
+  const handleRegisterForm = (event) => {
+    event.preventDefault();
+    console.log('clicked');
+  }
   return (
     <div>
       <div className='registered w-50 mx-auto my-5'>
-        <Form>
+        <Form onSubmit={handleRegisterForm}>
           <h1>Please Register!!</h1>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" required />
+            <Form.Control onBlur={handleEmailBluer} type="email" placeholder="Enter email" required />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
-
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" required />
+            <Form.Control onBlur={handlePasswordBluer} type="password" placeholder="Password" required />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
           <Button variant="primary" type="submit">
-            Submit
+            Register
           </Button>
         </Form>
       </div>
