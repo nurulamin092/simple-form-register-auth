@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import app from './firebase.init';
 
 const auth = getAuth(app);
@@ -47,7 +47,15 @@ function App() {
 
     setValidated(true);
     if (registered) {
-
+      signInWithEmailAndPassword(auth, email, password)
+        .then(result => {
+          const user = result.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          console.log(errorMessage);
+        })
     }
     else {
       createUserWithEmailAndPassword(auth, email, password)
