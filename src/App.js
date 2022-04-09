@@ -49,7 +49,10 @@ function App() {
       event.preventDefault();
       event.stopPropagation();
     }
-
+    if (/(?=.*[!@#$%^&*])/) {
+      setError('Password should contain at list one special character');
+      return;
+    }
     setValidated(true);
     if (registered) {
       signInWithEmailAndPassword(auth, email, password)
@@ -108,6 +111,7 @@ function App() {
             <Form.Label>Password</Form.Label>
             <Form.Control onBlur={handlePasswordBluer} type="password" placeholder="Password" required />
           </Form.Group>
+          <p className='text-danger'>{error}</p>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check onChange={handleRegisteredChange} type="checkbox" label="Already registered?" />
           </Form.Group>
