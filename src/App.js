@@ -8,6 +8,7 @@ import app from './firebase.init';
 const auth = getAuth(app);
 
 function App() {
+  const [validated, setValidated] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,7 +22,22 @@ function App() {
 
   const handleRegisterForm = (event) => {
     event.preventDefault();
-    console.log('clicked');
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      })
   }
   return (
     <div>
